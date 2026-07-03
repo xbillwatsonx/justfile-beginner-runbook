@@ -4,9 +4,8 @@ help:
 
 # Say hello
 hello:
-    echo "Hello from just."
+    @echo "Hello from just."
 
 # Show the current folder
 where-am-i:
-    pwd
-
+    @pwd

@@ -77,6 +77,27 @@ justx --version
 justx
 ```
 
+## Which Path Should I Use?
+
+- New to command line? Start with the Linux, WSL, or macOS path if available. For Windows beginners, WSL is the recommended path.
+- Already inside a project? Use `prompts/add-standard-justfile-to-project.md`.
+- Only want to learn first? Use `prompts/teach-me-justfile-and-justx.md`.
+- Something is broken? Use `prompts/repair-justfile-setup.md`.
+
+Before approving install commands, make sure the agent explains what each command does and why that install method fits your system.
+
+## Download Without Git
+
+You do not need Git to use this package.
+
+1. Open the release page: https://github.com/xbillwatsonx/justfile-beginner-runbook/releases/tag/v0.1.1
+2. Download `justfile-beginner-runbook-v0.1.1.zip`.
+3. Unzip it somewhere simple, such as your Desktop or Documents folder.
+4. Open `runbook/quick-start-card.md` first.
+5. Give the prompts to your agent from the unzipped folder.
+
+Do not copy this repo's `starter-kit/justfile` into this runbook repo. Copy it into the project you want to improve.
+
 ## What Success Looks Like
 
 You are done with the first setup when:
@@ -95,14 +116,30 @@ This package is intended for:
 
 - Linux
 - WSL on Windows
-- Windows
 - macOS
+- Windows with WSL, Git Bash, MSYS, or another Bash-compatible shell
+
+`just` itself can be installed on Windows, but the starter justfile recipes use Bash-style shell syntax. For native PowerShell or `cmd.exe`, use WSL/Git Bash or create a Windows-specific starter justfile.
 
 `just` is the core tool. `justx` is optional. The install prompt asks the agent to detect the user's system before recommending commands.
 
+## Validator Usage
+
+Check a project folder:
+
+```bash
+python3 validate-justfile-setup.py /path/to/project
+```
+
+Require `justx` too:
+
+```bash
+python3 validate-justfile-setup.py /path/to/project --require-justx
+```
+
 ## Version
 
-Status: v0.1.0 release candidate.
+Status: v0.1.1 release candidate.
 
 ## Source Notes
 

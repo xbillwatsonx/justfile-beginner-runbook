@@ -12,7 +12,9 @@ Use this card when you want an AI agent to install `just`, set up `justx`, and a
 
 ## Supported Platforms
 
-This guide is meant for Linux, WSL, Windows, and macOS.
+This guide is meant for Linux, WSL, macOS, and Windows with WSL/Git Bash/MSYS or another Bash-compatible shell.
+
+For Windows beginners, WSL is the recommended path. Native PowerShell or `cmd.exe` needs a Windows-specific starter justfile.
 
 The best install command depends on your system, so ask your agent to inspect first.
 
@@ -36,7 +38,7 @@ Please help me set up just and justx for this system.
 
 First inspect the system. Tell me:
 - my operating system
-- whether I am in Linux, WSL, Windows, or macOS
+- whether I am in Linux, WSL, macOS, or Windows with a Bash-compatible shell
 - whether just is installed
 - whether justx is installed
 - which install method you recommend
@@ -44,6 +46,8 @@ First inspect the system. Tell me:
 
 Do not install or change anything until you summarize what you found and propose the next step.
 ```
+
+Before approving install commands, make sure the agent explains what each command does and why that install method fits your system.
 
 ## If You Want A Lesson First
 

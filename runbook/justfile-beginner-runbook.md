@@ -17,7 +17,7 @@ Start with this path:
 3. Let the agent inspect your system.
 4. Approve installation only after the agent explains what it found.
 5. Confirm `just --version` works.
-6. Confirm `justx --version` works if you installed `justx`.
+6. Confirm `justx --version` works if you chose to install `justx`.
 7. Open your project folder.
 8. Give the agent `prompts/add-standard-justfile-to-project.md`.
 9. Confirm `just --list` shows recipes.
@@ -33,8 +33,8 @@ This runbook is intended for:
 
 - Linux
 - WSL on Windows
-- Windows
 - macOS
+- Windows with WSL, Git Bash, MSYS, or another Bash-compatible shell
 
 `just` works across these platforms, which is one reason it is useful for humans and agents. Instead of each project having a different command style, the project can expose one familiar command list:
 
@@ -43,6 +43,8 @@ just --list
 ```
 
 `justx` is optional. It gives users an interactive menu for recipes, but a project should still work with plain `just`.
+
+The starter recipes in this package use Bash-style shell syntax. For Windows beginners, WSL is the recommended path. Native PowerShell or `cmd.exe` needs a Windows-specific starter justfile.
 
 Before installing anything, the agent should detect the user's system and recommend the simplest install path for that system.
 
@@ -80,7 +82,7 @@ It shows the commands the project knows how to run.
 
 Official `justx` guidance says it is a TUI command launcher built on top of `just`, and that the `just` binary must already be available on your `PATH`.
 
-In plain English: install `just` first, then install `justx`.
+In plain English: install `just` first. Install `justx` only if you want the optional interactive menu.
 
 If you want a fuller lesson before changing a project, use:
 
@@ -176,14 +178,14 @@ The agent should follow this order:
 4. Ask before installing if the action changes the system.
 5. Install `just`.
 6. Verify `just --version`.
-7. Install `justx`.
-8. Verify `justx --version`.
+7. Offer optional `justx` installation if the user wants an interactive menu.
+8. If approved, install `justx` and verify `justx --version`. If skipped, continue with plain `just`.
 9. Create or update a project `justfile`.
 10. Run `just --list`.
 11. Run `just agent-preflight` if that recipe exists.
 12. Report exactly what changed.
 
-## 6A. What Success Looks Like
+## 7. What Success Looks Like
 
 A first setup is successful when:
 
@@ -196,7 +198,7 @@ A first setup is successful when:
 
 If `justx` is not installed, that is not a failure. `justx` is helpful for browsing recipes, but plain `just` is the core tool.
 
-## 7. Adding A Justfile To A Project
+## 8. Adding A Justfile To A Project
 
 Before editing, the agent should inspect the project.
 
@@ -215,11 +217,15 @@ If a justfile already exists, preserve it. Add recipes only after reviewing the 
 
 If no justfile exists, start simple.
 
-## 8. Standard Beginner Agent Recipes
+## 9. Standard Beginner Agent Recipes
 
 These recipes are a good starting point:
 
 ```just
+# Show all commands when running plain `just`
+default:
+    @just --list
+
 # Show all commands
 help:
     @just --list
@@ -262,7 +268,7 @@ build:
 
 Only add commands that actually work in that project.
 
-## 9. Troubleshooting
+## 10. Troubleshooting
 
 ### `just: command not found`
 
@@ -315,7 +321,7 @@ Ask the agent to:
 3. update the recipe or add a setup note
 4. rerun `just --list`
 
-## 10. What Good Completion Looks Like
+## 11. What Good Completion Looks Like
 
 The agent's final report should include:
 
@@ -328,7 +334,7 @@ The agent's final report should include:
 - `just --list` proof
 - any commands that still need manual review
 
-## 11. Sources
+## 12. Sources
 
 - `just` installation manual: https://just.systems/man/en/installation.html
 - `just` package list: https://just.systems/man/en/packages.html

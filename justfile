@@ -1,3 +1,7 @@
+# Show all commands when running plain `just`
+default:
+    @just --list
+
 # Show all commands
 help:
     @just --list
@@ -15,8 +19,8 @@ validate:
 # Build downloadable zip package
 package:
     mkdir -p downloads
-    rm -f downloads/justfile-beginner-runbook-v0.1.0.zip
-    zip -r downloads/justfile-beginner-runbook-v0.1.0.zip . -x './.git/*' './downloads/*' './__pycache__/*'
+    rm -f downloads/justfile-beginner-runbook-v0.1.1.zip
+    zip -r downloads/justfile-beginner-runbook-v0.1.1.zip . -x './.git/*' './downloads/*' './__pycache__/*'
 
 # Agent preflight checks
 agent-preflight:
@@ -31,4 +35,3 @@ agent-verify:
 # Show current repo state
 agent-status:
     @if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then git status; git log --oneline -5; else echo "Not a Git repository."; fi
-

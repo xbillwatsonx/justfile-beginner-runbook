@@ -1,6 +1,6 @@
 # Justfile & justx Tutorial
 
-> **A complete guide to `just` and `justx` for developers and AI coding agents.**
+> **A longer guide to `just` and `justx` for developers and AI coding agents.**
 >
 > Learn how to replace scattered npm scripts, Makefiles, and shell scripts with a single, discoverable command runner that works across projects, and how to navigate it with `justx`, the interactive TUI launcher.
 
@@ -61,7 +61,7 @@ And if you forget what's available? Type `just --list` to see the available reci
 |---|---|
 | **"What commands does this project have?"** | `just --list` prints every recipe with a description |
 | **"I have 15 npm scripts and can't remember half of them"** | Recipes are self-documenting with comments that appear in `--list` |
-| **"My Makefile only works on Linux"** | `just` is cross-platform — Linux, WSL, Windows, and macOS |
+| **"My Makefile only works on Linux"** | `just` is easier to use across Linux, WSL, macOS, and Bash-compatible Windows setups |
 | **"I need parameters with defaults"** | Recipes accept named parameters with default values |
 | **"I want an AI agent to understand my project instantly"** | `just --list` is a one-line interface description any agent can parse |
 | **"I have commands scattered across package.json, shell scripts, and my brain"** | One file. One tool. One menu. |
@@ -71,7 +71,7 @@ And if you forget what's available? Type `just --list` to see the available reci
 | Need | npm scripts | Make | shell scripts | **just** |
 |---|---|---|---|---|
 | Works without Node.js | ❌ | ⚠️ | ✅ | ✅ |
-| Cross-platform (Linux, WSL, Windows, macOS) | ⚠️ | ❌ | ✅ | ✅ |
+| Cross-platform for beginners | ⚠️ | requires setup | ✅ | ✅ |
 | Discoverable menu (`--list`) | ❌ | ⚠️ | ❌ | ✅ |
 | Parameters with defaults | ❌ | ❌ | ⚠️ | ✅ |
 | Documented recipes in `--list` | ❌ | ⚠️ | ❌ | ✅ |
@@ -350,7 +350,7 @@ set ignore-comments
 set no-exit-message
 ```
 
-### The two you almost always want
+### Common advanced settings
 
 ```just
 set shell := ["bash", "-uc"]
@@ -358,7 +358,7 @@ set unstable
 ```
 
 - `set shell := ["bash", "-uc"]` — use bash with strict error handling (`-u` = error on unset variables, `-c` = read from string)
-- `set unstable` — enables `--fmt` (auto-format) and top-level `export`
+- `set unstable` — enables features marked unstable in your installed `just` version. Some examples may require it depending on your version. Check `just --help` or the official manual for your installed version.
 
 The starter kit keeps things minimal on purpose. Add these settings as your justfile grows and you want stricter shell behavior or formatter support.
 
@@ -668,7 +668,7 @@ justx --version
 | `justx list -g` | List global recipes only (`~/.justx/user.just`) |
 | `justx run <recipe>` | Run a recipe directly |
 | `justx run -l <recipe>` | Run a local recipe |
-| `justx run -g <recipe>` | Run a global recipe |
+| `justx run -g <source:recipe> <args>` | Run a global recipe |
 | `justx check` | Verify `just` is installed and show discovered justfiles |
 | `justx check -v` | Verbose check with detailed discovery info |
 | `justx init` | Initialize `~/.justx/` with a sample `user.just` file |
@@ -729,8 +729,10 @@ justx check -v
 justx run -l build
 
 # 4. Run a global recipe
-justx run -g greet Alice
+justx run -g docker:shell my-image
 ```
+
+Global recipes may need a source prefix when multiple global recipe files exist.
 
 ---
 
@@ -1189,7 +1191,7 @@ release version: build test    # Parameterized dependency
 
 ```just
 set shell := ["bash", "-uc"]   # Use bash with strict mode
-set unstable                   # Enable export and --fmt
+set unstable                   # Enable unstable features for this just version
 set dotenv-load                # Load .env files
 set ignore-comments            # Allow # comments in recipe bodies
 set no-exit-message            # Suppress error tail message
@@ -1229,7 +1231,7 @@ justx list -l                  # List local recipes only
 justx list -g                  # List global recipes only
 justx run <recipe>             # Run a recipe
 justx run -l <recipe>          # Run a local recipe
-justx run -g <recipe>          # Run a global recipe
+justx run -g docker:shell img  # Run a global recipe
 justx check                    # Verify just installation
 justx check -v                 # Verbose discovery check
 justx init                     # Initialize ~/.justx/user.just

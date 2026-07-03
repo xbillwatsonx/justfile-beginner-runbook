@@ -41,8 +41,9 @@ def parse_recipe_names(text: str) -> set[str]:
             continue
         if ":" not in line:
             continue
-        name = line.split(":", 1)[0].strip()
-        if not name or " " in name or "=" in name:
+        header = line.split(":", 1)[0].strip()
+        name = header.split(None, 1)[0] if header else ""
+        if not name or "=" in name:
             continue
         recipes.add(name)
     return recipes
@@ -130,4 +131,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

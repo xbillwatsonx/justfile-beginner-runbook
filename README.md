@@ -90,8 +90,8 @@ Before approving install commands, make sure the agent explains what each comman
 
 You do not need Git to use this package.
 
-1. Open the release page: https://github.com/xbillwatsonx/justfile-beginner-runbook/releases/tag/v0.1.1
-2. Download `justfile-beginner-runbook-v0.1.1.zip`.
+1. Open the release page: https://github.com/xbillwatsonx/justfile-beginner-runbook/releases/tag/v0.1.2
+2. Download `justfile-beginner-runbook-v0.1.2.zip`.
 3. Unzip it somewhere simple, such as your Desktop or Documents folder.
 4. Open `runbook/quick-start-card.md` first.
 5. Give the prompts to your agent from the unzipped folder.
@@ -137,9 +137,11 @@ Require `justx` too:
 python3 validate-justfile-setup.py /path/to/project --require-justx
 ```
 
+Missing starter recipes are warnings unless `just --list` fails, `just` is missing, or the project has no justfile.
+
 ## Version
 
-Status: v0.1.1 release candidate.
+Status: v0.1.2 release candidate.
 
 ## Source Notes
 

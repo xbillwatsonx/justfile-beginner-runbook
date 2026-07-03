@@ -19,8 +19,8 @@ validate:
 # Build downloadable zip package
 package:
     mkdir -p downloads
-    rm -f downloads/justfile-beginner-runbook-v0.1.1.zip
-    zip -r downloads/justfile-beginner-runbook-v0.1.1.zip . -x './.git/*' './downloads/*' './__pycache__/*'
+    rm -f downloads/justfile-beginner-runbook-v*.zip
+    zip -r downloads/justfile-beginner-runbook-v0.1.2.zip . -x './.git/*' './downloads/*' './__pycache__/*'
 
 # Agent preflight checks
 agent-preflight:

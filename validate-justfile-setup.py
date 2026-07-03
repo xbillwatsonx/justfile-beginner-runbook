@@ -14,7 +14,8 @@ import sys
 from pathlib import Path
 
 
-REQUIRED_RECIPES = {
+RECOMMENDED_RECIPES = {
+    "default",
     "help",
     "menu",
     "agent-preflight",
@@ -90,7 +91,7 @@ def main() -> int:
     recipes: set[str] = set()
     if justfile is not None:
         recipes = parse_recipe_names(justfile.read_text(encoding="utf-8"))
-        missing = sorted(REQUIRED_RECIPES - recipes)
+        missing = sorted(RECOMMENDED_RECIPES - recipes)
         if missing:
             warnings.append("Missing recommended recipes: " + ", ".join(missing))
 

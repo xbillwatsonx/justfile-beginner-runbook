@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.2 - 2026-07-03
+
+- Made the install prompt align with optional `justx` setup.
+- Added `default:` to the quick-start card's minimum starter recipe block.
+- Renamed the validator's starter recipe set from required to recommended and added `default`.
+- Clarified that missing starter recipes are validator warnings unless core setup checks fail.
+- Updated README and packaging references for the v0.1.2 zip.
+
 ## 0.1.1 - 2026-07-02
 
 - Narrowed Windows wording to WSL/Git Bash/MSYS/Bash-compatible shell path.

@@ -71,6 +71,10 @@ After editing, run just --list and just agent-preflight, then report what change
 ## Minimum Good Starter Recipes
 
 ```just
+# Show all commands when running plain `just`
+default:
+    @just --list
+
 # Show all commands
 help:
     @just --list

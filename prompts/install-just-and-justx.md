@@ -1,13 +1,13 @@
-# Prompt: Install `just` and `justx`
+# Prompt: Install `just` and Optional `justx`
 
 Copy this into your agent.
 
 ```text
-Please help me install and verify just and justx on this system.
+Please help me install and verify just on this system, and optionally set up justx if I approve it.
 
 First inspect the system and tell me:
 - operating system
-- whether this is Linux, WSL, Windows, or macOS
+- whether this is Linux, WSL, macOS, or Windows with a Bash-compatible shell
 - shell or terminal environment
 - whether just is already installed
 - whether justx is already installed
@@ -18,14 +18,17 @@ Do not install or change anything until you summarize what you found and recomme
 
 Use the platform's normal path when practical:
 - Linux/WSL: system package manager, official binary installer, cargo, uv, or pipx
-- Windows: winget, scoop, choco, cargo, uv, or pipx
+- Windows with Bash-compatible shell: winget, scoop, choco, cargo, uv, or pipx, depending on the shell and PATH
 - macOS: brew, MacPorts, cargo, uv, or pipx
 
-After I approve the install step, install just first, verify `just --version`, then install justx and verify `justx --version`.
+After I approve the install step, install just first and verify `just --version`.
+
+Then ask whether I want the optional justx interactive menu. If I approve, install justx and verify `justx --version`. If I skip justx, continue with plain just.
 
 When done, report:
 - commands you ran
 - versions installed
+- whether justx was installed or skipped
 - whether PATH changes were needed
 - anything I need to restart or reopen
 - the exact next command I should run to confirm it works

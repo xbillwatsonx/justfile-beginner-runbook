@@ -1,4 +1,15 @@
+# Python
 __pycache__/
 *.pyc
-.DS_Store
 
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+
+# justx (local global recipe dir - never commit)
+.justx/

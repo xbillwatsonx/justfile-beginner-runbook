@@ -1072,7 +1072,7 @@ list-scenes:
 ### Pattern: Game development workshop
 
 ```just
-# gamelab — game dev workshop
+# game-dev-workshop
 set shell := ["bash", "-uc"]
 
 help:

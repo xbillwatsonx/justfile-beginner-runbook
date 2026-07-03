@@ -34,7 +34,7 @@ You do not need to understand every command on day one. The goal is simply to ge
 ## Give This To Your Agent First
 
 ```text
-Please help me set up just and justx for this system.
+Please help me set up just and optional justx for this system.
 
 First inspect the system. Tell me:
 - my operating system

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3 - 2026-07-03
+
+- Changed the quick-start install prompt wording to say `optional justx`.
+- Updated README and packaging references for the v0.1.3 zip.
+
 ## 0.1.2 - 2026-07-03
 
 - Made the install prompt align with optional `justx` setup.

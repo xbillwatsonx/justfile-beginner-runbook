@@ -1,0 +1,18 @@
+# Changelog
+
+## 0.1.0-draft - 2026-07-02
+
+- Created first standalone draft package.
+- Added main runbook, quick-start card, prompts, examples, starter justfile, checker script, and internal review plan.
+- Revised starter recipes so non-Git folders show a friendly message instead of a fatal Git error.
+- Removed references to unrelated runbook projects from user-facing package text.
+- Added teaching prompt and included Bill's tutorial at `tutorial/justfile-and-justx-tutorial.md`.
+- Added supported-platforms guidance for Linux, WSL, Windows, and macOS.
+- Added first-20-minutes and success-check guidance for brand-new users.
+- Corrected tutorial `justx` install/repository details and clarified that the tutorial is optional deeper learning.
+- Removed specific internal agent-tool examples from the main runbook wording.
+- Completed disposable-folder smoke test for a fresh project using the starter justfile.
+- Added README mini-article explaining why justfiles matter for users, agents, and inference cost.
+- Added external review and repo-plus-zip packaging plan to internal review plan.
+- Applied Hermes review corrections: guarded tutorial menu recipes, added apt caveat, removed public README review reference, updated release-candidate status, clarified duplicate starter/example files, labeled example version output, and made tutorial paths generic.
+- Added public-repo `.gitignore`.

@@ -1,0 +1,12 @@
+# Show all commands
+help:
+    @just --list
+
+# Say hello
+hello:
+    echo "Hello from just."
+
+# Show the current folder
+where-am-i:
+    pwd
+

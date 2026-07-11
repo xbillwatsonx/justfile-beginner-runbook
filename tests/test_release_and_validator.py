@@ -92,22 +92,40 @@ class ReleaseConfigurationTests(unittest.TestCase):
             with self.subTest(fragment=fragment):
                 self.assertNotIn(fragment, tutorial)
 
-    def test_package_recipe_uses_v015_and_explicit_manifest(self):
+    def test_package_recipe_uses_v016_and_explicit_manifest(self):
         justfile = (REPO_ROOT / "justfile").read_text(encoding="utf-8")
 
-        self.assertIn("justfile-beginner-runbook-v0.1.5.zip", justfile)
+        self.assertIn("justfile-beginner-runbook-v0.1.6.zip", justfile)
         self.assertIn("distribution-manifest.txt", justfile)
         self.assertNotIn("zip -r", justfile)
 
-    def test_distribution_manifest_includes_article_and_header(self):
+    def test_justfile_first_prompt_has_required_durable_workflow(self):
+        prompt_path = REPO_ROOT / "prompts" / "add-justfile-first-agent-rule.md"
+        self.assertTrue(prompt_path.is_file())
+        prompt = prompt_path.read_text(encoding="utf-8")
+
+        required_text = [
+            "AGENTS.md",
+            "just --list",
+            "just agent-preflight",
+            "## Justfile-First Workflow",
+            "Do not duplicate",
+            "confirm",
+        ]
+        for text in required_text:
+            with self.subTest(text=text):
+                self.assertIn(text, prompt)
+
+    def test_distribution_manifest_includes_article_header_and_agent_rule_prompt(self):
         manifest = (REPO_ROOT / "distribution-manifest.txt").read_text(
             encoding="utf-8"
         )
 
         self.assertIn("why-you-should-use-justfile-with-agents.md", manifest)
         self.assertIn("assets/justfile-ai-agents-header.png", manifest)
+        self.assertIn("prompts/add-justfile-first-agent-rule.md", manifest)
 
-    def test_v015_zip_matches_manifest_and_has_no_corrupt_member(self):
+    def test_v016_zip_matches_manifest_and_has_no_corrupt_member(self):
         manifest = [
             line
             for line in (REPO_ROOT / "distribution-manifest.txt")
@@ -115,10 +133,11 @@ class ReleaseConfigurationTests(unittest.TestCase):
             .splitlines()
             if line
         ]
-        package = REPO_ROOT / "downloads" / "justfile-beginner-runbook-v0.1.5.zip"
+        package = REPO_ROOT / "downloads" / "justfile-beginner-runbook-v0.1.6.zip"
 
         with ZipFile(package) as archive:
             self.assertEqual(archive.namelist(), manifest)
+            self.assertIn("prompts/add-justfile-first-agent-rule.md", archive.namelist())
             self.assertIsNone(archive.testzip())
 
 

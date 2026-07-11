@@ -1,6 +1,6 @@
 # Justfile Beginner Runbook
 
-Beginner-friendly runbook for installing `just`, setting up `justx`, and giving AI agents a standard way to run project commands.
+Beginner-friendly runbook for installing `just`, setting up `justx`, and giving AI agents a standard way to find and run project commands.
 
 This package is standalone. It gives beginners and their agents a practical path for installing `just`, setting up `justx`, learning the basics, and adding a safe project command menu.
 
@@ -10,7 +10,7 @@ This guide helps a user hand a project to an AI agent and say:
 
 > Please get `just` and `justx` working on this system, then add a simple project `justfile` so future agents know how to run common commands.
 
-The agent should inspect the system first, explain what it found, install missing tools only with approval, preserve existing project files, and verify the result before calling it finished.
+The agent should inspect the system first, explain what it found, install missing tools only with approval, preserve existing project files, and verify the result. It should also add a durable justfile-first rule to the project's agent instructions and get the user's confirmation before calling setup finished.
 
 ## Why This Matters
 
@@ -40,6 +40,15 @@ This can also save inference costs. Agents burn tokens when they repeatedly sear
 
 `justx` is optional, but it makes the same command menu easier to browse. `just` gives the project a reliable command interface. `justx` gives users a friendly way to navigate it.
 
+## Two Layers That Work Together
+
+The v0.1.6 setup has two simple layers:
+
+1. The project `justfile` contains the recipes. It is the project command menu.
+2. `AGENTS.md` or another agent/harness instruction file tells the agent to check that menu first.
+
+Both matter. A command can exist without an agent knowing it should use that command first. That was the exact problem seen in real Hermes use: the recipe existed, but the durable project instructions did not yet tell the agent to start there. The justfile-first rule closes that gap for Hermes, OpenClaw, and other agent harnesses.
+
 ## What Is Included
 
 - `runbook/justfile-beginner-runbook.md` - Full beginner guide.
@@ -47,6 +56,7 @@ This can also save inference costs. Agents burn tokens when they repeatedly sear
 - `prompts/install-just-and-justx.md` - Copy-paste prompt for tool installation.
 - `prompts/teach-me-justfile-and-justx.md` - Copy-paste prompt for learning how justfiles and `justx` work.
 - `prompts/add-standard-justfile-to-project.md` - Copy-paste prompt for adding a project justfile.
+- `prompts/add-justfile-first-agent-rule.md` - Copy-paste prompt for adding the durable agent/harness rule.
 - `prompts/repair-justfile-setup.md` - Copy-paste prompt for troubleshooting.
 - `tutorial/justfile-and-justx-tutorial.md` - Longer tutorial for humans and agents.
 - `examples/basic-justfile` - Small example for a new project.
@@ -64,13 +74,16 @@ If you are brand new, start here:
 4. Approve the install only after the agent explains what it found.
 5. If you want a lesson before changing a project, copy `prompts/teach-me-justfile-and-justx.md`.
 6. After install verification, copy `prompts/add-standard-justfile-to-project.md`.
-7. Ask the agent to run:
+7. Have the agent run:
 
 ```bash
 just --version
 just --list
 just agent-preflight
 ```
+
+8. Have the agent add the durable rule from `prompts/add-justfile-first-agent-rule.md` to `AGENTS.md` or the appropriate existing instruction file.
+9. Review what changed and confirm the workflow works. Only then is setup complete.
 
 If `justx` is installed, also test:
 
@@ -92,8 +105,8 @@ Before approving install commands, make sure the agent explains what each comman
 
 You do not need Git to use this package.
 
-1. Open the release page: https://github.com/xbillwatsonx/justfile-beginner-runbook/releases/tag/v0.1.5
-2. Download `justfile-beginner-runbook-v0.1.5.zip`.
+1. While v0.1.6 is a release candidate, use the repository files or the locally built `downloads/justfile-beginner-runbook-v0.1.6.zip`.
+2. After v0.1.6 is approved and published, download `justfile-beginner-runbook-v0.1.6.zip` from the v0.1.6 release page.
 3. Unzip it somewhere simple, such as your Desktop or Documents folder.
 4. Open `runbook/quick-start-card.md` first.
 5. Give the prompts to your agent from the unzipped folder.
@@ -108,6 +121,8 @@ You are done with the first setup when:
 - `just --list` shows available recipes.
 - the project has a `justfile`.
 - `just agent-preflight` runs without a confusing error.
+- `AGENTS.md` or the appropriate agent instruction file contains the justfile-first rule.
+- you reviewed the changes and confirmed the workflow works.
 - `justx --version` prints a version, if you installed `justx`.
 
 `justx` is helpful but optional. A project should still work with plain `just`.
@@ -143,7 +158,7 @@ Missing starter recipes are warnings unless `just --list` fails, `just` is missi
 
 ## Version
 
-Status: v0.1.5 release candidate.
+Status: v0.1.6 release candidate.
 
 ## Source Notes
 

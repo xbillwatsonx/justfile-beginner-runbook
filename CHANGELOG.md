@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.6 - 2026-07-11
+
+- Added a copy-paste prompt for creating a durable justfile-first rule in `AGENTS.md` or another project agent instruction file.
+- Updated setup prompts and beginner flows so agents add the durable rule after verifying the justfile.
+- Added beginner guidance explaining how the justfile and agent instruction file work together.
+- Added user review and confirmation as required setup completion steps.
+- Added release regression coverage and v0.1.6 packaging references.
+
 ## 0.1.5 - 2026-07-11
 
 - Added Bill Watson's revised beginner article and its exact 5:2 header image.

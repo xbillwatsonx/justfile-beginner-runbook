@@ -9,6 +9,7 @@ why-you-should-use-justfile-with-agents.md
 assets/justfile-ai-agents-header.png
 examples/agent-standard-justfile
 examples/basic-justfile
+prompts/add-justfile-first-agent-rule.md
 prompts/add-standard-justfile-to-project.md
 prompts/install-just-and-justx.md
 prompts/repair-justfile-setup.md

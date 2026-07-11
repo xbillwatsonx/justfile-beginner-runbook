@@ -22,6 +22,8 @@ Start with this path:
 8. Give the agent `prompts/add-standard-justfile-to-project.md`.
 9. Confirm `just --list` shows recipes.
 10. Confirm `just agent-preflight` runs.
+11. Have the agent add the durable justfile-first rule to `AGENTS.md` or the appropriate existing agent instruction file.
+12. Review what changed and confirm the workflow works before setup is called complete.
 
 That is enough for the first day.
 
@@ -183,7 +185,11 @@ The agent should follow this order:
 9. Create or update a project `justfile`.
 10. Run `just --list`.
 11. Run `just agent-preflight` if that recipe exists.
-12. Report exactly what changed.
+12. Add the durable justfile-first rule to `AGENTS.md` or the appropriate existing agent/harness instruction file.
+13. Preserve existing instructions and avoid duplicating an existing rule section.
+14. Report exactly what changed and review it with the user.
+15. Ask the user to confirm the workflow works.
+16. Only then consider setup complete.
 
 ## 7. What Success Looks Like
 
@@ -195,6 +201,8 @@ A first setup is successful when:
 - `just agent-preflight` runs.
 - `justx --version` prints a version, if `justx` was installed.
 - the agent reports which recipes it added or changed.
+- an appropriate project instruction file tells agents to check `just help` or `just --list` first.
+- the user reviewed the changes and confirmed the workflow works.
 
 If `justx` is not installed, that is not a failure. `justx` is helpful for browsing recipes, but plain `just` is the core tool.
 
@@ -268,7 +276,23 @@ build:
 
 Only add commands that actually work in that project.
 
-## 10. Troubleshooting
+## 10. Add The Durable Agent Rule
+
+A justfile is the project command menu, but a future agent still needs a project rule telling it to look at that menu first.
+
+After the justfile works, use `prompts/add-justfile-first-agent-rule.md`. The agent should inspect existing instruction files such as `AGENTS.md`, `CLAUDE.md`, `.cursor/rules/*`, or `.github/copilot-instructions.md`. It should preserve what is already there, use the most appropriate file, and avoid adding the same rule twice. If no suitable file exists, it should create `AGENTS.md` in the project root.
+
+The finished rule should tell agents to:
+
+- start operational work with `just help` or `just --list`
+- use a matching recipe before raw commands, manual config inspection, or broad searches
+- go manual when no recipe exists, a recipe fails, or the user asks for manual inspection
+- propose a recipe when a repeated workflow is missing
+- verify changes with `just --list` and `just agent-preflight` if available
+
+The agent should report exactly which instruction file changed, review the setup with the user, and ask the user to confirm it works. Setup is not complete until the user confirms it.
+
+## 11. Troubleshooting
 
 ### `just: command not found`
 
@@ -321,7 +345,7 @@ Ask the agent to:
 3. update the recipe or add a setup note
 4. rerun `just --list`
 
-## 11. What Good Completion Looks Like
+## 12. What Good Completion Looks Like
 
 The agent's final report should include:
 
@@ -330,11 +354,13 @@ The agent's final report should include:
 - whether `justx` is installed
 - `justx --version` output
 - justfile path
+- agent instruction file path
 - recipes added or changed
 - `just --list` proof
+- whether the user confirmed the workflow works
 - any commands that still need manual review
 
-## 12. Sources
+## 13. Sources
 
 - `just` installation manual: https://just.systems/man/en/installation.html
 - `just` package list: https://just.systems/man/en/packages.html

@@ -25,6 +25,12 @@ Add project-specific recipes only when you can verify the underlying command exi
 After editing:
 - run `just --list`
 - run `just agent-preflight` if available
-- report the justfile path, recipes added, validation output, and any commands that still need review
+- add the durable justfile-first rule to `AGENTS.md` or the appropriate existing agent/harness instruction file, using `prompts/add-justfile-first-agent-rule.md`
+- preserve existing instructions and do not duplicate an existing rule section
+- report the justfile path, instruction file path, recipes added, validation output, and any commands that still need review
+- review the changes with me
+- ask me to confirm the workflow works before calling setup complete
+
+Do not consider setup complete until I confirm the workflow works.
 ```
 

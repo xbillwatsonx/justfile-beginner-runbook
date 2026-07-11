@@ -504,6 +504,19 @@ A recipe parameter is user input. Direct interpolation such as `{{name}}` can le
 
 This section is for developers who work with AI coding agents, code editors, CLI assistants, or local AI tools. A well-crafted justfile makes your project **instantly understandable** to any agent that lands in it.
 
+### Use two layers: recipes and operating rules
+
+Think of the `justfile` as the project's command menu. It contains the recipes that run tests, builds, checks, and other common jobs.
+
+Think of `AGENTS.md` or a similar agent instruction file as the project's operating rules. It tells an agent how to begin working in this particular project.
+
+The best setup uses both:
+
+- the `justfile` contains the working recipes
+- the instruction file tells the agent to run `just help` or `just --list` and check those recipes first
+
+Without the instruction rule, a useful recipe may exist while a new agent still searches files and guesses commands. After setting up the justfile, use `prompts/add-justfile-first-agent-rule.md` to add the durable rule without replacing existing project instructions.
+
 ### 1. Make `default` print the menu
 
 ```just

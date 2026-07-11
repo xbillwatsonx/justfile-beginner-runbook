@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.7 - 2026-07-11
+
+- Updated the README download instructions to point directly to the published release.
+- Removed stale v0.1.6 release-candidate wording.
+- Preserved the published v0.1.6 tag and release asset without modification.
+
 ## 0.1.6 - 2026-07-11
 
 - Added a copy-paste prompt for creating a durable justfile-first rule in `AGENTS.md` or another project agent instruction file.

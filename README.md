@@ -105,8 +105,8 @@ Before approving install commands, make sure the agent explains what each comman
 
 You do not need Git to use this package.
 
-1. While v0.1.6 is a release candidate, use the repository files or the locally built `downloads/justfile-beginner-runbook-v0.1.6.zip`.
-2. After v0.1.6 is approved and published, download `justfile-beginner-runbook-v0.1.6.zip` from the v0.1.6 release page.
+1. Open the [v0.1.7 release page](https://github.com/xbillwatsonx/justfile-beginner-runbook/releases/tag/v0.1.7).
+2. Download `justfile-beginner-runbook-v0.1.7.zip`.
 3. Unzip it somewhere simple, such as your Desktop or Documents folder.
 4. Open `runbook/quick-start-card.md` first.
 5. Give the prompts to your agent from the unzipped folder.
@@ -158,7 +158,7 @@ Missing starter recipes are warnings unless `just --list` fails, `just` is missi
 
 ## Version
 
-Status: v0.1.6 release candidate.
+Status: v0.1.7 published.
 
 ## Source Notes
 

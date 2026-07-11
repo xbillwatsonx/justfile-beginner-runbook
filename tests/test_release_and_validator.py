@@ -92,10 +92,10 @@ class ReleaseConfigurationTests(unittest.TestCase):
             with self.subTest(fragment=fragment):
                 self.assertNotIn(fragment, tutorial)
 
-    def test_package_recipe_uses_v016_and_explicit_manifest(self):
+    def test_package_recipe_uses_v017_and_explicit_manifest(self):
         justfile = (REPO_ROOT / "justfile").read_text(encoding="utf-8")
 
-        self.assertIn("justfile-beginner-runbook-v0.1.6.zip", justfile)
+        self.assertIn("justfile-beginner-runbook-v0.1.7.zip", justfile)
         self.assertIn("distribution-manifest.txt", justfile)
         self.assertNotIn("zip -r", justfile)
 
@@ -125,7 +125,7 @@ class ReleaseConfigurationTests(unittest.TestCase):
         self.assertIn("assets/justfile-ai-agents-header.png", manifest)
         self.assertIn("prompts/add-justfile-first-agent-rule.md", manifest)
 
-    def test_v016_zip_matches_manifest_and_has_no_corrupt_member(self):
+    def test_v017_zip_matches_manifest_and_has_no_corrupt_member(self):
         manifest = [
             line
             for line in (REPO_ROOT / "distribution-manifest.txt")
@@ -133,7 +133,7 @@ class ReleaseConfigurationTests(unittest.TestCase):
             .splitlines()
             if line
         ]
-        package = REPO_ROOT / "downloads" / "justfile-beginner-runbook-v0.1.6.zip"
+        package = REPO_ROOT / "downloads" / "justfile-beginner-runbook-v0.1.7.zip"
 
         with ZipFile(package) as archive:
             self.assertEqual(archive.namelist(), manifest)

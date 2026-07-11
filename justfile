@@ -21,12 +21,12 @@ validate:
 validate-justx:
     python3 validate-justfile-setup.py starter-kit --require-justx
 
-# Build the v0.1.6 downloadable zip from the explicit distribution manifest
+# Build the v0.1.7 downloadable zip from the explicit distribution manifest
 package:
     mkdir -p downloads
-    rm -f downloads/justfile-beginner-runbook-v0.1.6.zip
-    zip -q downloads/justfile-beginner-runbook-v0.1.6.zip -@ < distribution-manifest.txt
-    unzip -t downloads/justfile-beginner-runbook-v0.1.6.zip
+    rm -f downloads/justfile-beginner-runbook-v0.1.7.zip
+    zip -q downloads/justfile-beginner-runbook-v0.1.7.zip -@ < distribution-manifest.txt
+    unzip -t downloads/justfile-beginner-runbook-v0.1.7.zip
 
 # Agent preflight checks
 agent-preflight:

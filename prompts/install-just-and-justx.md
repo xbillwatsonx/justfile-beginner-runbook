@@ -26,7 +26,7 @@ After I approve the install step, install just first and verify `just --version`
 Then ask whether I want the optional justx interactive menu. If I approve, install justx and verify `justx --version`. If I skip justx, continue with plain just.
 
 After tool installation is verified, continue with the project setup:
-- add or improve the project's justfile
+- use `prompts/add-standard-justfile-to-project.md` for the justfile step so you inspect the project, propose the recipes before editing, preserve an existing justfile, and verify each underlying command
 - run `just --list` and `just agent-preflight` if available
 - add the durable justfile-first rule to `AGENTS.md` or the appropriate existing agent/harness instruction file, using `prompts/add-justfile-first-agent-rule.md`
 - preserve existing instructions and do not duplicate an existing rule section

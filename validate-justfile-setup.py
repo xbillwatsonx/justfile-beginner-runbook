@@ -90,10 +90,15 @@ def main() -> int:
 
     recipes: set[str] = set()
     if justfile is not None:
-        recipes = parse_recipe_names(justfile.read_text(encoding="utf-8"))
-        missing = sorted(RECOMMENDED_RECIPES - recipes)
-        if missing:
-            warnings.append("Missing recommended recipes: " + ", ".join(missing))
+        try:
+            justfile_text = justfile.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            errors.append(f"Justfile is not valid UTF-8: {justfile}")
+        else:
+            recipes = parse_recipe_names(justfile_text)
+            missing = sorted(RECOMMENDED_RECIPES - recipes)
+            if missing:
+                warnings.append("Missing recommended recipes: " + ", ".join(missing))
 
     if shutil.which("just") is None:
         errors.append("just is not installed or not on PATH")

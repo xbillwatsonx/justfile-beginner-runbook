@@ -12,15 +12,21 @@ menu:
 
 # Validate the starter kit and checker
 validate:
-    python3 validate-justfile-setup.py starter-kit --require-justx
+    python3 validate-justfile-setup.py starter-kit
     python3 -m py_compile validate-justfile-setup.py
-    rm -rf __pycache__
+    python3 -m unittest discover -s tests -v
+    rm -rf __pycache__ tests/__pycache__
 
-# Build downloadable zip package
+# Validate the optional justx installation too
+validate-justx:
+    python3 validate-justfile-setup.py starter-kit --require-justx
+
+# Build the v0.1.5 downloadable zip from the explicit distribution manifest
 package:
     mkdir -p downloads
-    rm -f downloads/justfile-beginner-runbook-v*.zip
-    zip -r downloads/justfile-beginner-runbook-v0.1.4.zip . -x './.git/*' './downloads/*' './__pycache__/*'
+    rm -f downloads/justfile-beginner-runbook-v0.1.5.zip
+    zip -q downloads/justfile-beginner-runbook-v0.1.5.zip -@ < distribution-manifest.txt
+    unzip -t downloads/justfile-beginner-runbook-v0.1.5.zip
 
 # Agent preflight checks
 agent-preflight:
@@ -29,8 +35,12 @@ agent-preflight:
 
 # Agent verification after edits
 agent-verify:
-    @if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then git status; git diff --stat; else echo "Not a Git repository."; fi
+    @if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then git status; git diff --check; git diff --stat; else echo "Not a Git repository."; fi
     just validate
+    JUST_UNSTABLE=1 just --justfile justfile --fmt --check
+    JUST_UNSTABLE=1 just --justfile starter-kit/justfile --fmt --check
+    JUST_UNSTABLE=1 just --justfile examples/basic-justfile --fmt --check
+    JUST_UNSTABLE=1 just --justfile examples/agent-standard-justfile --fmt --check
 
 # Show current repo state
 agent-status:

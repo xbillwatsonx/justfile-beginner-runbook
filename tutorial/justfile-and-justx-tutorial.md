@@ -21,7 +21,7 @@ This is the longer tutorial. If you only want setup steps, start with `runbook/q
 9. [Settings block (`set ...`)](#settings-block-set-)
 10. [Recipe attributes (`[group]`, `[doc]`, `[private]`, `[confirm]`)](#recipe-attributes-group-doc-private-confirm)
 11. [Shebang recipes](#shebang-recipes)
-12. [Aliases and abbreviations](#aliases-and-abbreviations)
+12. [Aliases](#aliases)
 13. [AI-agent-friendly justfile patterns](#ai-agent-friendly-justfile-patterns)
 14. [justx: the interactive TUI launcher](#justx-the-interactive-tui-launcher)
 15. [Hands-on: build a justfile from scratch](#hands-on-build-a-justfile-from-scratch)
@@ -142,7 +142,7 @@ A recipe is a named block of shell commands. Here's the anatomy:
 ```just
 # This is a comment. It shows up in `just --list`.
 recipe-name param1 param2="default":
-    @echo "Running with {{param1}} and {{param2}}"
+    @printf 'Running with %s and %s\n' {{quote(param1)}} {{quote(param2)}}
     some-command --flag
 ```
 
@@ -182,8 +182,8 @@ project := "my-app"
 port    := "3000"
 
 start:
-    @echo "Starting {{project}} on port {{port}}"
-    npm run dev -- --port {{port}}
+    @printf 'Starting %s on port %s\n' {{quote(project)}} {{quote(port)}}
+    npm run dev -- --port {{quote(port)}}
 ```
 
 Use `:=` for compile-time constants. These are evaluated when `just` parses the file, not at runtime.
@@ -194,7 +194,7 @@ Recipes can accept arguments:
 
 ```just
 greet person:
-    @echo "Hello, {{person}}!"
+    @printf '%s\n' {{quote("Hello, " + person + "!")}}
 ```
 
 ```bash
@@ -208,7 +208,7 @@ Parameters can have defaults, making them optional:
 
 ```just
 greet person="world":
-    @echo "Hello, {{person}}!"
+    @printf '%s\n' {{quote("Hello, " + person + "!")}}
 ```
 
 ```bash
@@ -222,15 +222,15 @@ Use `+` before a parameter name to accept multiple arguments:
 
 ```just
 list-files +paths:
-    ls -la {{paths}}
+    printf '%s\n' {{quote(paths)}}
 ```
 
 ```bash
 just list-files src public tests
-# ls -la src public tests
+# src public tests
 ```
 
-`paths` becomes a single string with all arguments joined by spaces. Perfect for wrapping shell commands.
+`paths` becomes a single string with all arguments joined by spaces. Quote it before passing it to the shell. If a command must receive each path as a separate argument, use a separate script that accepts an argument array instead of direct interpolation.
 
 ### Naming convention
 
@@ -283,8 +283,8 @@ test:
 
 ```just
 release version: build test
-    @echo "Releasing {{version}}..."
-    @git tag "v{{version}}"
+    @printf 'Releasing %s...\n' {{quote(version)}}
+    @git tag {{quote("v" + version)}}
     @git push --tags
 ```
 
@@ -470,7 +470,7 @@ The shebang line becomes the interpreter for the entire recipe body. The body is
 
 ---
 
-## Aliases and abbreviations
+## Aliases
 
 ### Aliases
 
@@ -488,16 +488,15 @@ just tw   # runs test-watch
 just b    # runs build
 ```
 
-### Abbreviations
+### Use aliases instead of guessed prefixes
 
-`just` also supports abbreviation matching — if you type a unique prefix, it resolves automatically:
+`just` does not expand a partial recipe name automatically. If you want a short command such as `just b`, define it explicitly with `alias b := build`. Explicit aliases appear in the justfile and behave consistently.
 
-```bash
-just b    # runs build (if no other recipe starts with 'b')
-just tes  # runs test (if unambiguous)
-```
+---
 
-Aliases are explicit and documented. Abbreviations are convenient but fragile. Prefer aliases for muscle-memory shortcuts.
+## Quote recipe parameters before passing them to a shell
+
+A recipe parameter is user input. Direct interpolation such as `{{name}}` can let shell characters change the command. When a parameter is used in a shell command, wrap it with just's `quote()` function, for example `{{quote(name)}}`. For more complex recipes, pass parameters to a separate script and validate them there.
 
 ---
 
@@ -544,14 +543,14 @@ This is the killer recipe for agent-to-agent continuity. It writes a one-page br
 # Drop a handoff brief for the next agent or session
 [group('agent')]
 handoff out="_handoff.md":
-    @echo "# Handoff brief for {{justfile_directory()}}" > {{out}}
-    @echo "" >> {{out}}
-    @echo "## Available commands" >> {{out}}
-    @just --list >> {{out}}
-    @echo "" >> {{out}}
-    @echo "## Last commits" >> {{out}}
-    @git log --oneline -10 >> {{out}}
-    @echo "Wrote {{out}}"
+    @echo "# Handoff brief for {{justfile_directory()}}" > {{quote(out)}}
+    @echo "" >> {{quote(out)}}
+    @echo "## Available commands" >> {{quote(out)}}
+    @just --list >> {{quote(out)}}
+    @echo "" >> {{quote(out)}}
+    @echo "## Last commits" >> {{quote(out)}}
+    @git log --oneline -10 >> {{quote(out)}}
+    @printf 'Wrote %s\n' {{quote(out)}}
 ```
 
 Run `just handoff` to drop a `_handoff.md` file. Hand it to a new agent (or paste it into a chat) and they have orientation in seconds.
@@ -666,9 +665,9 @@ justx --version
 | `justx list` | List all recipes from all scopes |
 | `justx list -l` | List local recipes only (project justfile) |
 | `justx list -g` | List global recipes only (`~/.justx/user.just`) |
-| `justx run <recipe>` | Run a recipe directly |
-| `justx run -l <recipe>` | Run a local recipe |
-| `justx run -g <source:recipe> <args>` | Run a global recipe |
+| `justx run justfile::<recipe> -l` | Run a recipe from the local justfile |
+| `justx run user::<recipe> -g` | Run a recipe from `~/.justx/user.just` |
+| `justx run user::<recipe> -g <args>` | Run a global recipe with arguments |
 | `justx check` | Verify `just` is installed and show discovered justfiles |
 | `justx check -v` | Verbose check with detailed discovery info |
 | `justx init` | Initialize `~/.justx/` with a sample `user.just` file |
@@ -688,7 +687,7 @@ This means you can have personal recipes that follow you across all projects:
 
 # Greet someone by name
 greet name:
-    @echo "Hello, {{name}}! Welcome to justx."
+    @printf '%s\n' {{quote("Hello, " + name + "! Welcome to justx.")}}
 
 # Show the current date and time
 now:
@@ -711,7 +710,7 @@ When an AI coding agent lands in a project:
 
 1. It runs `just` → sees the menu
 2. It runs `justx list` → sees all recipes with scopes
-3. It runs `justx run <recipe>` → executes with scope awareness
+3. It runs `justx run justfile::<recipe> -l` → executes a source-qualified local recipe
 4. It can use `justx check -v` to understand the full justfile discovery chain
 
 The TUI (`justx` with no arguments) is also great for **humans** who want to browse recipes interactively without memorizing command names.
@@ -726,10 +725,10 @@ justx list
 justx check -v
 
 # 3. Run a recipe
-justx run -l build
+justx run justfile::build -l
 
 # 4. Run a global recipe
-justx run -g docker:shell my-image
+justx run docker::shell -g my-image
 ```
 
 Global recipes may need a source prefix when multiple global recipe files exist.
@@ -813,7 +812,7 @@ test-watch:
 # Run a single test by name (usage: just test-only "my test name")
 [group('test')]
 test-only name:
-    npx vitest run -t "{{name}}"
+    npx vitest run -t {{quote(name)}}
 ```
 
 ### Step 5 — Add agent recipes
@@ -854,14 +853,14 @@ agent-status:
 # Drop a handoff brief for the next agent or session
 [group('agent')]
 handoff out="_handoff.md":
-    @echo "# Handoff brief for {{justfile_directory()}}" > {{out}}
-    @echo "" >> {{out}}
-    @echo "## Available commands" >> {{out}}
-    @just --list >> {{out}}
-    @echo "" >> {{out}}
-    @echo "## Last commits" >> {{out}}
-    @git log --oneline -10 >> {{out}}
-    @echo "Wrote {{out}}"
+    @echo "# Handoff brief for {{justfile_directory()}}" > {{quote(out)}}
+    @echo "" >> {{quote(out)}}
+    @echo "## Available commands" >> {{quote(out)}}
+    @just --list >> {{quote(out)}}
+    @echo "" >> {{quote(out)}}
+    @echo "## Last commits" >> {{quote(out)}}
+    @git log --oneline -10 >> {{quote(out)}}
+    @printf 'Wrote %s\n' {{quote(out)}}
 
 # Show what files a new agent should read first
 [group('agent')]
@@ -961,7 +960,7 @@ test-watch:
 # Run a single test by name (usage: just test-only "my test name")
 [group('test')]
 test-only name:
-    npx vitest run -t "{{name}}"
+    npx vitest run -t {{quote(name)}}
 
 # ── Agent Handoff ──────────────────────────────────────────────────
 
@@ -998,14 +997,14 @@ agent-status:
 # Drop a handoff brief for the next agent or session
 [group('agent')]
 handoff out="_handoff.md":
-    @echo "# Handoff brief for {{justfile_directory()}}" > {{out}}
-    @echo "" >> {{out}}
-    @echo "## Available commands" >> {{out}}
-    @just --list >> {{out}}
-    @echo "" >> {{out}}
-    @echo "## Last commits" >> {{out}}
-    @git log --oneline -10 >> {{out}}
-    @echo "Wrote {{out}}"
+    @echo "# Handoff brief for {{justfile_directory()}}" > {{quote(out)}}
+    @echo "" >> {{quote(out)}}
+    @echo "## Available commands" >> {{quote(out)}}
+    @just --list >> {{quote(out)}}
+    @echo "" >> {{quote(out)}}
+    @echo "## Last commits" >> {{quote(out)}}
+    @git log --oneline -10 >> {{quote(out)}}
+    @printf 'Wrote %s\n' {{quote(out)}}
 
 # Show what files a new agent should read first
 [group('agent')]
@@ -1051,17 +1050,17 @@ menu:
 # Open the project in the Godot editor
 [group('godot')]
 editor:
-    godot --editor ~/projects/my-game/project.godot
+    godot --editor project.godot
 
 # Run the main scene
 [group('godot')]
 run:
-    godot ~/projects/my-game/project.godot
+    godot project.godot
 
 # Run a specific scene by number
 [group('godot')]
 run-scene number:
-    godot ~/projects/my-game/project.godot res://scenes/{{number}}-*/main.tscn
+    @number={{quote(number)}}; [[ "$number" =~ ^[0-9]+$ ]] || { echo "Scene number must contain digits only." >&2; exit 2; }; shopt -s nullglob; matches=(scenes/"${number}"-*/main.tscn); (( ${#matches[@]} == 1 )) || { printf 'Expected exactly one scene for number %s; found %s.\n' "$number" "${#matches[@]}" >&2; exit 2; }; godot project.godot "res://${matches[0]}"
 
 # List all scenes
 [group('maintenance')]
@@ -1084,12 +1083,12 @@ menu:
 # Search all research material for a keyword
 [group('research')]
 search-research query:
-    @rg -l -i "{{query}}" ~/projects/my-research/
+    @rg -l -i {{quote(query)}} ~/projects/my-research/
 
 # Log a new entry to the work log
 [group('maintenance')]
 log message:
-    @echo "[$(date '+%Y-%m-%d')] {{message}}" >> WORKLOG.md
+    @printf '[%s] %s\n' "$(date '+%Y-%m-%d')" {{quote(message)}} >> WORKLOG.md
     @echo "Logged to WORKLOG.md"
 
 # Show recent work log entries
@@ -1120,16 +1119,15 @@ continue:
 
 # Start your agent CLI with a prompt (usage: just ask "List all .ts files")
 ask prompt:
-    agent-cli -p "{{prompt}}"
+    agent-cli -p {{quote(prompt)}}
 
 # Start your agent CLI read-only (no file mutation)
 read-only prompt="":
-    agent-cli --tools read,grep,find,ls -p "{{prompt}}"
+    agent-cli --tools read,grep,find,ls -p {{quote(prompt)}}
 
 # Create a new extension from template
 new-ext name:
-    @echo 'import type { ExtensionAPI } from "@example/agent-sdk";\n\nexport default function (agent: ExtensionAPI) {\n  agent.on("session_start", async (_event, ctx) => {\n    ctx.ui.notify("{{name}} loaded!", "info");\n  });\n}' > ~/projects/my-agent/extensions/{{name}}.ts
-    @echo "Created ~/projects/my-agent/extensions/{{name}}.ts"
+    @name={{quote(name)}}; [[ "$name" =~ ^[A-Za-z0-9_-]+$ ]] || { echo "Extension name may contain letters, digits, underscores, and hyphens only." >&2; exit 2; }; printf '%s\n' 'import type { ExtensionAPI } from "@example/agent-sdk";' '' 'export default function (agent: ExtensionAPI) {' '  agent.on("session_start", async (_event, ctx) => {' '    ctx.ui.notify("Extension loaded!", "info");' '  });' '}' > "$HOME/projects/my-agent/extensions/${name}.ts"; printf 'Created %s\n' "$HOME/projects/my-agent/extensions/${name}.ts"
 ```
 
 ---
@@ -1160,13 +1158,13 @@ recipe:                        # Basic recipe (4-space indent)
     @command                   # @ = silent (no echo)
 
 recipe a b:                    # Required parameters
-    echo {{a}} {{b}}
+    printf '%s %s\n' {{quote(a)}} {{quote(b)}}
 
 recipe a="default":            # Optional parameter with default
-    echo {{a}}
+    printf '%s\n' {{quote(a)}}
 
 recipe +paths:                 # Variadic (space-joined)
-    ls {{paths}}
+    printf '%s\n' {{quote(paths)}}
 ```
 
 ### Dependencies
@@ -1229,9 +1227,9 @@ justx                          # Open interactive TUI menu
 justx list                     # List all recipes (all scopes)
 justx list -l                  # List local recipes only
 justx list -g                  # List global recipes only
-justx run <recipe>             # Run a recipe
-justx run -l <recipe>          # Run a local recipe
-justx run -g docker:shell img  # Run a global recipe
+justx run justfile::<recipe> -l # Run a local recipe
+justx run user::<recipe> -g     # Run a global recipe
+justx run docker::shell -g img  # Run a named global source recipe
 justx check                    # Verify just installation
 justx check -v                 # Verbose discovery check
 justx init                     # Initialize ~/.justx/user.just
@@ -1244,7 +1242,7 @@ justx init --download-examples # Download example justfiles
 
 - **Official just site & docs:** [https://just.systems](https://just.systems)
 - **just GitHub repo:** [https://github.com/casey/just](https://github.com/casey/just)
-- **just cheatsheet:** [https://github.com/casey/just/blob/master/docs/cheatsheet.md](https://github.com/casey/just/blob/master/docs/cheatsheet.md)
+- **just recipes reference:** [https://just.systems/man/en/recipes.html](https://just.systems/man/en/recipes.html)
 - **justx GitHub repo:** [https://github.com/fpgmaas/justx](https://github.com/fpgmaas/justx)
 - **AGENTS.md convention:** Create an `AGENTS.md` file in your project root to give AI agents additional context about your codebase, conventions, and architecture.
 
@@ -1253,7 +1251,7 @@ justx init --download-examples # Download example justfiles
 ## Quick start checklist
 
 - [ ] Install `just` using the best method for your platform
-- [ ] Install `justx` (`uv tool install justx`)
+- [ ] Optional: install `justx` (`uv tool install justx`) if you want the visual browser
 - [ ] Create a `justfile` in your project root
 - [ ] Add `set shell := ["bash", "-uc"]` and `set unstable` at the top
 - [ ] Add a `default` recipe that runs `@just --list`

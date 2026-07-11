@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.5 - 2026-07-11
+
+- Added Bill Watson's revised beginner article and its exact 5:2 header image.
+- Corrected `justx run` examples to use verified source-qualified targets.
+- Removed the false recipe-prefix abbreviation claim and pointed readers to explicit aliases.
+- Quoted user-controlled parameters in key tutorial recipes and added shell-safety guidance.
+- Kept `justx` optional in the default validation workflow while retaining an explicit strict check.
+- Made malformed justfile encoding a clean validator error instead of a traceback.
+- Replaced broad recursive ZIP packaging with an explicit distribution manifest.
+- Added validator and release regression tests and strengthened `agent-verify`.
+- Updated release links and packaging for v0.1.5.
+
 ## 0.1.4 - 2026-07-03
 
 - Cleaned internal references from changelog, made tutorial example name generic, expanded `.gitignore` for public distribution.

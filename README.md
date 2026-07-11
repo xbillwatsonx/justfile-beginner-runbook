@@ -16,6 +16,8 @@ The agent should inspect the system first, explain what it found, install missin
 
 A `justfile` gives every project a simple command menu.
 
+For a fuller explanation of why this matters for both people and AI agents, read [What Is a Justfile, and Why Should You Use One With AI Agents?](why-you-should-use-justfile-with-agents.md). You can also read and share the [published X article](https://x.com/xbillwatsonx/status/2076010273698152580).
+
 Without one, a person or agent has to hunt through README files, package scripts, shell scripts, Makefiles, notes, and old chat history to figure out how the project works. That slows everything down, especially when a new agent enters the project cold.
 
 With a `justfile`, the first useful question becomes:
@@ -90,8 +92,8 @@ Before approving install commands, make sure the agent explains what each comman
 
 You do not need Git to use this package.
 
-1. Open the release page: https://github.com/xbillwatsonx/justfile-beginner-runbook/releases/tag/v0.1.4
-2. Download `justfile-beginner-runbook-v0.1.4.zip`.
+1. Open the release page: https://github.com/xbillwatsonx/justfile-beginner-runbook/releases/tag/v0.1.5
+2. Download `justfile-beginner-runbook-v0.1.5.zip`.
 3. Unzip it somewhere simple, such as your Desktop or Documents folder.
 4. Open `runbook/quick-start-card.md` first.
 5. Give the prompts to your agent from the unzipped folder.
@@ -141,7 +143,7 @@ Missing starter recipes are warnings unless `just --list` fails, `just` is missi
 
 ## Version
 
-Status: v0.1.4 release candidate.
+Status: v0.1.5 release candidate.
 
 ## Source Notes
 

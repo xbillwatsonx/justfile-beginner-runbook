@@ -66,7 +66,7 @@ The first improvement is that it reduces guessing. The agent uses a known comman
 
 It also reduces mistakes. The correct commands, file paths, options, and sequence of steps are already stored in the recipe. The agent does not have to reconstruct them from memory every time or reason through procedures that have already been solved. That leaves more of its reasoning budget available for work that actually requires judgment.
 
-A justfile also creates consistency. The same recipe runs the same commands whether it is used by Hermes, Openclaw, Codex, Claude or any human person working directly in the terminal.
+A justfile also creates consistency. The same recipe runs the same commands whether it is used by Hermes, OpenClaw, Codex, Claude, or any person working directly in the terminal.
 
 This makes handoffs easier. A new agent can enter the project, run `just --list`, and quickly see how the project should be operated. Important procedures are no longer trapped in old conversations or dependent on one agent remembering them.
 

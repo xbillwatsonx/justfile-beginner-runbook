@@ -19,3 +19,5 @@ runbook/quick-start-card.md
 starter-kit/justfile
 tests/test_release_and_validator.py
 tutorial/justfile-and-justx-tutorial.md
+videos/README.md
+videos/How_a_Justfile_Fixes_AI_Coding_Agents.mp4

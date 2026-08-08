@@ -92,10 +92,10 @@ class ReleaseConfigurationTests(unittest.TestCase):
             with self.subTest(fragment=fragment):
                 self.assertNotIn(fragment, tutorial)
 
-    def test_package_recipe_uses_v017_and_explicit_manifest(self):
+    def test_package_recipe_uses_v018_and_explicit_manifest(self):
         justfile = (REPO_ROOT / "justfile").read_text(encoding="utf-8")
 
-        self.assertIn("justfile-beginner-runbook-v0.1.7.zip", justfile)
+        self.assertIn("justfile-beginner-runbook-v0.1.8.zip", justfile)
         self.assertIn("distribution-manifest.txt", justfile)
         self.assertNotIn("zip -r", justfile)
 
@@ -116,7 +116,7 @@ class ReleaseConfigurationTests(unittest.TestCase):
             with self.subTest(text=text):
                 self.assertIn(text, prompt)
 
-    def test_distribution_manifest_includes_article_header_and_agent_rule_prompt(self):
+    def test_distribution_manifest_includes_article_header_agent_rule_and_video(self):
         manifest = (REPO_ROOT / "distribution-manifest.txt").read_text(
             encoding="utf-8"
         )
@@ -124,8 +124,10 @@ class ReleaseConfigurationTests(unittest.TestCase):
         self.assertIn("why-you-should-use-justfile-with-agents.md", manifest)
         self.assertIn("assets/justfile-ai-agents-header.png", manifest)
         self.assertIn("prompts/add-justfile-first-agent-rule.md", manifest)
+        self.assertIn("videos/README.md", manifest)
+        self.assertIn("videos/How_a_Justfile_Fixes_AI_Coding_Agents.mp4", manifest)
 
-    def test_v017_zip_matches_manifest_and_has_no_corrupt_member(self):
+    def test_v018_zip_matches_manifest_and_has_no_corrupt_member(self):
         manifest = [
             line
             for line in (REPO_ROOT / "distribution-manifest.txt")
@@ -133,11 +135,12 @@ class ReleaseConfigurationTests(unittest.TestCase):
             .splitlines()
             if line
         ]
-        package = REPO_ROOT / "downloads" / "justfile-beginner-runbook-v0.1.7.zip"
+        package = REPO_ROOT / "downloads" / "justfile-beginner-runbook-v0.1.8.zip"
 
         with ZipFile(package) as archive:
             self.assertEqual(archive.namelist(), manifest)
             self.assertIn("prompts/add-justfile-first-agent-rule.md", archive.namelist())
+            self.assertIn("videos/How_a_Justfile_Fixes_AI_Coding_Agents.mp4", archive.namelist())
             self.assertIsNone(archive.testzip())
 
 

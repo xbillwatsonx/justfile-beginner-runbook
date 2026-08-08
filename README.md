@@ -59,6 +59,7 @@ Both matter. A command can exist without an agent knowing it should use that com
 - `prompts/add-justfile-first-agent-rule.md` - Copy-paste prompt for adding the durable agent/harness rule.
 - `prompts/repair-justfile-setup.md` - Copy-paste prompt for troubleshooting.
 - `tutorial/justfile-and-justx-tutorial.md` - Longer tutorial for humans and agents.
+- `videos/How_a_Justfile_Fixes_AI_Coding_Agents.mp4` - Short visual introduction to why a justfile helps AI coding agents.
 - `examples/basic-justfile` - Small example for a new project.
 - `examples/agent-standard-justfile` - Reference copy of the standard agent workflow justfile.
 - `starter-kit/justfile` - Copy-ready version of the same standard justfile for users to place in a project.
@@ -92,6 +93,10 @@ justx --version
 justx
 ```
 
+## Video Introduction
+
+Prefer to watch first? [Watch or download **How a Justfile Fixes AI Coding Agents**](videos/How_a_Justfile_Fixes_AI_Coding_Agents.mp4).
+
 ## Which Path Should I Use?
 
 - New to command line? Start with the Linux, WSL, or macOS path if available. For Windows beginners, WSL is the recommended path.
@@ -105,8 +110,8 @@ Before approving install commands, make sure the agent explains what each comman
 
 You do not need Git to use this package.
 
-1. Open the [v0.1.7 release page](https://github.com/xbillwatsonx/justfile-beginner-runbook/releases/tag/v0.1.7).
-2. Download `justfile-beginner-runbook-v0.1.7.zip`.
+1. Open the [v0.1.8 release page](https://github.com/xbillwatsonx/justfile-beginner-runbook/releases/tag/v0.1.8).
+2. Download `justfile-beginner-runbook-v0.1.8.zip`.
 3. Unzip it somewhere simple, such as your Desktop or Documents folder.
 4. Open `runbook/quick-start-card.md` first.
 5. Give the prompts to your agent from the unzipped folder.
@@ -158,7 +163,7 @@ Missing starter recipes are warnings unless `just --list` fails, `just` is missi
 
 ## Version
 
-Status: v0.1.7 published.
+Status: v0.1.8 published.
 
 ## Source Notes
 

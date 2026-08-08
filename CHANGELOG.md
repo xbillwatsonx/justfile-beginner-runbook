@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.8 - 2026-08-08
+
+- Added the short video `How a Justfile Fixes AI Coding Agents` under `videos/` and linked it from the README.
+- Added the video to the explicit release manifest and package regression coverage.
+- Excluded Windows `Zone.Identifier` metadata from Git tracking and release packages.
+
 ## 0.1.7 - 2026-07-11
 
 - Updated the README download instructions to point directly to the published release.

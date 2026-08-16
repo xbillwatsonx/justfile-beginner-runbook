@@ -86,6 +86,8 @@ Official `justx` guidance says it is a TUI command launcher built on top of `jus
 
 In plain English: install `just` first. Install `justx` only if you want the optional interactive menu.
 
+PATH is the list of folders your terminal searches when you type a command. If the program's folder is on PATH, you can type `just` without writing its full location. If it is not on PATH, the terminal says "command not found."
+
 If you want a fuller lesson before changing a project, use:
 
 - `prompts/teach-me-justfile-and-justx.md`
@@ -223,6 +225,24 @@ Look for:
 
 If a justfile already exists, preserve it. Add recipes only after reviewing the current file.
 
+### Coexistence With Existing Build Tools
+
+Existing build tools should be preserved unless the user explicitly asks to replace or migrate them. A justfile can coexist with a Makefile, Taskfile, package scripts, and a `scripts/` folder because each tool uses its own command file. `make` reads `Makefile` and `just` reads `justfile`; they do not conflict.
+
+Prefer thin just recipes that delegate to the project's existing authoritative commands rather than copying command implementations into two places. For example:
+
+```just
+# Run tests via existing Makefile
+test:
+    make test
+
+# Build via existing npm scripts
+build:
+    npm run build
+```
+
+Before creating the justfile, report which command source is authoritative, what will remain unchanged, and which existing commands the proposed recipes will call. Review the proposed mapping with the user before editing.
+
 If no justfile exists, start simple.
 
 ## 9. Standard Beginner Agent Recipes
@@ -334,6 +354,21 @@ just --list
 
 If `just --list` works, `justx` should be able to see local recipes when launched from that folder.
 
+### `just --list` reports a parse error
+
+The justfile itself has a syntax error. `just` reports the file and line number where parsing failed.
+
+Ask the agent to:
+
+1. read the reported line and the lines around it
+2. identify the syntax issue (common causes: missing colon after a recipe name, wrong indentation, stray characters)
+3. propose the smallest edit that fixes the syntax
+4. ask for approval before editing
+5. after editing, rerun `just --list` to confirm it parses
+6. run the repaired recipe to confirm it works
+
+Do not reinstall `just` or change PATH for a parse error. The problem is in the justfile, not the installation.
+
 ### A recipe fails
 
 The recipe may call a command that is not installed, or the project may need setup first.
@@ -345,7 +380,61 @@ Ask the agent to:
 3. update the recipe or add a setup note
 4. rerun `just --list`
 
-## 12. What Good Completion Looks Like
+Ask for approval before making changes to the justfile.
+
+## 12. Validation Script
+
+This package includes a dependency-free validator script: `validate-justfile-setup.py`. It checks whether `just` is installed and on PATH, whether a justfile exists, whether the justfile parses, and whether recommended recipes are present.
+
+### How to run it
+
+From the repo root or any project directory:
+
+```bash
+python3 validate-justfile-setup.py /path/to/project
+```
+
+Add `--require-justx` only if `justx` is mandatory for your setup.
+
+### Output and exit codes
+
+- Exit code `0`: basic checks passed. The script prints `OK: basic justfile setup checks passed.`
+- Exit code `1`: one or more errors were found. Errors are printed under an `Errors:` heading.
+- Warnings are printed under a `Warnings:` heading but do not cause a nonzero exit code.
+
+### What the validator checks
+
+- The supplied project path exists and is a directory.
+- A justfile exists (`justfile`, `Justfile`, `.justfile`, or `.Justfile`).
+- The justfile is valid UTF-8.
+- `just` is installed and available on PATH.
+- `just --list` succeeds (the justfile parses without errors).
+- Recommended recipes are present: `default`, `help`, `menu`, `agent-preflight`, `agent-verify`, `agent-status`.
+- `justx` is on PATH (warning unless `--require-justx` is supplied).
+
+### What the validator does not check
+
+The validator does not run any recipe. A justfile may parse successfully and still contain recipes whose underlying commands fail. After running the validator, manually run safe recipes such as `just help` and `just agent-preflight` to confirm they work.
+
+The validator also does not check:
+
+- whether recipes produce correct output
+- whether recipe commands exist on the system
+- whether the justfile follows project conventions
+- recipe body syntax beyond what `just --list` can parse
+
+### Responding to validator findings
+
+| Finding | What to do |
+|---|---|
+| `just is not installed or not on PATH` | Install `just` using the recommended method for your system, or fix PATH. See Section 5. |
+| `No justfile found in ...` | Create a justfile in the project root. See Section 9. |
+| `just --list failed` | The justfile has a syntax error. See Section 11, "`just --list` reports a parse error." |
+| `Missing recommended recipes` | Add the missing recipes from the starter set in Section 9. |
+| `justx is not installed` | Install `justx` only if you want the interactive menu. Otherwise, this warning is safe to ignore. |
+| `File ... is not valid UTF-8` | The justfile has encoding problems. Re-save it as UTF-8 text. |
+
+## 13. What Good Completion Looks Like
 
 The agent's final report should include:
 
@@ -360,7 +449,7 @@ The agent's final report should include:
 - whether the user confirmed the workflow works
 - any commands that still need manual review
 
-## 13. Sources
+## 14. Sources
 
 - `just` installation manual: https://just.systems/man/en/installation.html
 - `just` package list: https://just.systems/man/en/packages.html

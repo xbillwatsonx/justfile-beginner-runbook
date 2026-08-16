@@ -16,14 +16,15 @@ Start with read-only checks:
 - `justx --version`
 - relevant PATH entries
 
-Do not reinstall tools, overwrite files, or change PATH until you explain the likely cause and propose a fix.
+Do not reinstall tools, overwrite files, or change PATH until you explain the likely cause, propose a fix, and ask for my approval. Wait for my approval before making any changes.
 
 If the problem is a justfile recipe:
 - inspect the recipe
 - run the underlying command directly if safe
 - explain the failure in plain English
 - propose the smallest edit
-- rerun `just --list` and the repaired recipe
+- ask for my approval before making the change
+- after approval, rerun `just --list` and the repaired recipe
 
 Final report should include what was wrong, what changed, and proof that it works now.
 ```

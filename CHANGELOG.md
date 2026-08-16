@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.2.0 - 2026-08-16
+
+SimSuite test revisions. Six issues found through persona-based simulation testing (SIM-004, 2026-08-15):
+
+- Quick-start card: defined WSL/Git Bash/MSYS, PATH, and agent-preflight in plain language for complete beginners.
+- Runbook: added plain-language PATH definition at first use.
+- Runbook §8: added coexistence and preservation guidance for existing build tools (Makefile, Taskfile, npm scripts, scripts/). Recommended thin wrapper recipes that delegate to authoritative commands.
+- Runbook §11: added "just --list reports a parse error" troubleshooting subsection.
+- Runbook §12: added validator documentation section with command examples, exit codes, what the script checks, what it does not check, and an output-to-action table.
+- Repair prompt: made approval explicit ("ask for my approval and wait" before making changes).
+
 ## 0.1.8 - 2026-08-08
 
 - Added the short video `How a Justfile Fixes AI Coding Agents` under `videos/` and linked it from the README.

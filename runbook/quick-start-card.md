@@ -7,7 +7,7 @@ Use this card when you want an AI agent to install `just`, set up `justx`, add a
 - `just` lets a project save useful commands in one file named `justfile`.
 - A command inside a `justfile` is called a recipe.
 - `just --list` shows the available recipes.
-- `just agent-preflight` can give an agent a predictable first check.
+- `just agent-preflight` is a quick project check the AI runs before making changes (like a pilot's preflight checklist).
 - `justx` is an optional menu that allows users to browse and run recipes interactively.
 - `AGENTS.md` or a similar instruction file can tell agents to check the project's recipes before going manual.
 
@@ -15,7 +15,7 @@ Use this card when you want an AI agent to install `just`, set up `justx`, add a
 
 This guide is meant for Linux, WSL, macOS, and Windows with WSL/Git Bash/MSYS or another Bash-compatible shell.
 
-For Windows beginners, WSL is the recommended path. Native PowerShell or `cmd.exe` needs a Windows-specific starter justfile.
+WSL, Git Bash, and MSYS are different terminal environments that let Windows users run Bash-style commands. If you are on Windows and not sure which to use, choose WSL. Native PowerShell or `cmd.exe` needs a Windows-specific starter justfile.
 
 The best install command depends on your system, so ask your agent to inspect first.
 
@@ -46,6 +46,8 @@ First inspect the system. Tell me:
 - whether justx is installed
 - which install method you recommend
 - whether any PATH changes are needed
+
+PATH is the list of folders your terminal searches when you type a command. If the program's folder is on PATH, you can type `just` without writing its full location. If it is not on PATH, the terminal says "command not found."
 
 Do not install or change anything until you summarize what you found and propose the next step.
 ```

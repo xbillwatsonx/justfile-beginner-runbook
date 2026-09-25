@@ -33,7 +33,7 @@ This is the longer tutorial. If you only want setup steps, start with `runbook/q
 
 ## What is `just`?
 
-`just` is a **command runner** — a single, fast binary that reads a file called `justfile` and turns its contents into runnable commands called **recipes**.
+`just` is a **command runner**, a single, fast binary that reads a file called `justfile` and turns its contents into runnable commands called **recipes**.
 
 Think of it as Make for humans: no `.PHONY`, no arcane syntax, no tab-vs-space wars. Just a clean file of named commands you can run from anywhere in your project.
 
@@ -125,7 +125,7 @@ just hello
 # Hello, world!
 ```
 
-That's it. A recipe is a name followed by a colon, and the body is indented with **4 spaces** (tabs also work — `just` normalizes them).
+That's it. A recipe is a name followed by a colon, and the body is indented with **4 spaces** (tabs also work, `just` normalizes them).
 
 ### Key things to notice
 
@@ -146,7 +146,7 @@ recipe-name param1 param2="default":
     some-command --flag
 ```
 
-### The `@` prefix — silencing command echo
+### The `@` prefix, silencing command echo
 
 By default, `just` echoes every command line before running it. That's noisy. Prefix a line with `@` to suppress the echo:
 
@@ -294,7 +294,7 @@ Each dependency runs at most once per invocation, even if multiple recipes depen
 
 ## The `default` recipe and `--list`
 
-### `just --list` — your project menu
+### `just --list`, your project menu
 
 This is the killer feature. Run it in any project with a justfile:
 
@@ -325,7 +325,7 @@ default:
     @just --list
 ```
 
-Now typing `just` (with no arguments) prints the menu. **This is the recommended pattern** — cold start → full project map.
+Now typing `just` (with no arguments) prints the menu. **This is the recommended pattern**, cold start → full project map.
 
 ---
 
@@ -357,8 +357,8 @@ set shell := ["bash", "-uc"]
 set unstable
 ```
 
-- `set shell := ["bash", "-uc"]` — use bash with strict error handling (`-u` = error on unset variables, `-c` = read from string)
-- `set unstable` — enables features marked unstable in your installed `just` version. Some examples may require it depending on your version. Check `just --help` or the official manual for your installed version.
+- `set shell := ["bash", "-uc"]`, use bash with strict error handling (`-u` = error on unset variables, `-c` = read from string)
+- `set unstable`, enables features marked unstable in your installed `just` version. Some examples may require it depending on your version. Check `just --help` or the official manual for your installed version.
 
 The starter kit keeps things minimal on purpose. Add these settings as your justfile grows and you want stricter shell behavior or formatter support.
 
@@ -390,7 +390,7 @@ test:
 
 Attributes go on the line **directly above** a recipe and change how it behaves:
 
-### `[group('name')]` — organize your menu
+### `[group('name')]`, organize your menu
 
 ```just
 # Start the dev server
@@ -414,7 +414,7 @@ Available recipes:
     test   # Run the test suite
 ```
 
-### `[doc('text')]` — override the description
+### `[doc('text')]`, override the description
 
 ```just
 [doc('Start the Vite dev server on port 5173')]
@@ -424,7 +424,7 @@ dev:
 
 Use this when the auto-extracted comment isn't clear enough.
 
-### `[private]` — hide from the menu
+### `[private]`, hide from the menu
 
 ```just
 [private]
@@ -432,9 +432,9 @@ _internal-helper:
     @echo "This won't appear in --list"
 ```
 
-The recipe is still runnable — it just doesn't clutter the menu.
+The recipe is still runnable, it just doesn't clutter the menu.
 
-### `[confirm('message')]` — guard destructive actions
+### `[confirm('message')]`, guard destructive actions
 
 ```just
 [confirm('Delete all build artifacts and node_modules? (y/N)')]
@@ -583,7 +583,7 @@ agent-context:
 ### 6. Add agent workflow recipes
 
 ```just
-# Preflight checks — run before starting work
+# Preflight checks, run before starting work
 [group('agent')]
 agent-preflight:
     @echo "── Git Status ──"
@@ -592,7 +592,7 @@ agent-preflight:
     @echo "── Available Recipes ──"
     @just --list
 
-# Verification after edits — confirm what changed
+# Verification after edits, confirm what changed
 [group('agent')]
 agent-verify:
     @echo "── Git Status ──"
@@ -633,8 +633,8 @@ nuke:
 Every project justfile should start with the same header so agents recognize it:
 
 ```just
-# project-name — one-line description
-# Standard agent justfile convention — every repo feels the same.
+# project-name, one-line description
+# Standard agent justfile convention, every repo feels the same.
 
 set shell := ["bash", "-uc"]
 set unstable
@@ -690,8 +690,8 @@ justx --version
 
 `justx` understands two scopes:
 
-- **Local** — the `justfile` in your current project directory
-- **Global** — `~/.justx/user.just` — recipes available everywhere, in any directory
+- **Local**, the `justfile` in your current project directory
+- **Global**, `~/.justx/user.just`, recipes available everywhere, in any directory
 
 This means you can have personal recipes that follow you across all projects:
 
@@ -752,17 +752,17 @@ Global recipes may need a source prefix when multiple global recipe files exist.
 
 Let's build a real justfile for a typical TypeScript/Vite project. Follow along.
 
-### Step 1 — Create the file
+### Step 1: Create the file
 
 ```bash
 touch justfile
 ```
 
-### Step 2 — Add the header and settings
+### Step 2: Add the header and settings
 
 ```just
-# my-project — a TypeScript web app
-# Standard agent justfile convention — every repo feels the same.
+# my-project, a TypeScript web app
+# Standard agent justfile convention, every repo feels the same.
 
 set shell := ["bash", "-uc"]
 set unstable
@@ -781,7 +781,7 @@ default:
     @just --list
 ```
 
-### Step 3 — Add dev lifecycle recipes
+### Step 3: Add dev lifecycle recipes
 
 ```just
 # ── Dev Lifecycle ──────────────────────────────────────────────────
@@ -807,7 +807,7 @@ preview:
     @npm run preview
 ```
 
-### Step 4 — Add test recipes
+### Step 4: Add test recipes
 
 ```just
 # ── Testing ────────────────────────────────────────────────────────
@@ -828,12 +828,12 @@ test-only name:
     npx vitest run -t {{quote(name)}}
 ```
 
-### Step 5 — Add agent recipes
+### Step 5: Add agent recipes
 
 ```just
 # ── Agent Handoff ──────────────────────────────────────────────────
 
-# Preflight checks — run before starting work
+# Preflight checks, run before starting work
 [group('agent')]
 agent-preflight:
     @echo "── Git Status ──"
@@ -884,7 +884,7 @@ agent-context:
     @echo "4. docs/ARCHITECTURE.md (if present)"
 ```
 
-### Step 6 — Add maintenance recipes
+### Step 6: Add maintenance recipes
 
 ```just
 # ── Maintenance ─────────────────────────────────────────────────────
@@ -894,7 +894,7 @@ agent-context:
 clean:
     rm -rf dist .vite
 
-# Deep clean — removes node_modules too
+# Deep clean, removes node_modules too
 [confirm('Delete dist/, node_modules/, and cache? (y/N)')]
 [group('maintenance')]
 nuke:
@@ -902,7 +902,7 @@ nuke:
     @echo "Run 'just install' to restore dependencies."
 ```
 
-### Step 7 — Test it
+### Step 7: Test it
 
 ```bash
 just                    # runs the default recipe if one exists
@@ -917,8 +917,8 @@ justx                   # opens the interactive TUI (if installed)
 ### The complete file
 
 ```just
-# my-project — a TypeScript web app
-# Standard agent justfile convention — every repo feels the same.
+# my-project, a TypeScript web app
+# Standard agent justfile convention, every repo feels the same.
 
 set shell := ["bash", "-uc"]
 set unstable
@@ -977,7 +977,7 @@ test-only name:
 
 # ── Agent Handoff ──────────────────────────────────────────────────
 
-# Preflight checks — run before starting work
+# Preflight checks, run before starting work
 [group('agent')]
 agent-preflight:
     @echo "── Git Status ──"
@@ -1034,7 +1034,7 @@ agent-context:
 clean:
     rm -rf dist .vite
 
-# Deep clean — removes node_modules too
+# Deep clean, removes node_modules too
 [confirm('Delete dist/, node_modules/, and cache? (y/N)')]
 [group('maintenance')]
 nuke:
@@ -1051,7 +1051,7 @@ Here are patterns from real projects to inspire your own justfiles.
 ### Pattern: Godot game project
 
 ```just
-# godot-sandbox — Godot 4 learning sandbox
+# godot-sandbox: Godot 4 learning sandbox
 set shell := ["bash", "-uc"]
 
 help:

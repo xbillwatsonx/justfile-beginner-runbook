@@ -2,7 +2,45 @@
 
 Beginner-friendly runbook for installing `just`, setting up `justx`, and giving AI agents a standard way to find and run project commands.
 
-This package is standalone. It gives beginners and their agents a practical path for installing `just`, setting up `justx`, learning the basics, and adding a safe project command menu.
+---
+
+## Three Ways to Start
+
+Pick the one that fits you right now.
+
+### 1. Download Without Git
+
+1. Open the [v0.1.8 release page](https://github.com/xbillwatsonx/justfile-beginner-runbook/releases/tag/v0.1.8).
+2. Download `justfile-beginner-runbook-v0.1.8.zip`.
+3. Unzip it somewhere simple, such as your Desktop or Documents folder.
+4. Open the [Quick-Start Card](runbook/quick-start-card.md) first.
+5. Give the prompts to your agent from the unzipped folder.
+
+### 2. Use With an Agent
+
+Open [Install `just` and Optional `justx`](prompts/install-just-and-justx.md), then copy its complete prompt into your agent. The agent will inspect your system first and wait for your approval before installing or changing anything.
+
+Keep the [Quick-Start Card](runbook/quick-start-card.md) open while you work through the steps.
+
+### 3. Add to an Existing Project
+
+Already have `just` working? Open [Add a Standard Project Justfile](prompts/add-standard-justfile-to-project.md), then copy its prompt into your agent from the project you want to improve. It will inspect the project, propose recipes, and add a safe starter justfile.
+
+Copy `starter-kit/justfile` into the project you want to improve, not into this runbook repository.
+
+---
+
+## Quick Completion Checklist
+
+- [ ] I chose a start path above and opened its linked instructions
+- [ ] If installation was needed, I reviewed and approved the agent's plan
+- [ ] `just --version` prints a version
+- [ ] `just --list` shows recipes in the project
+- [ ] `just agent-preflight` runs without confusing errors
+- [ ] I reviewed the changes and confirmed the workflow works
+- [ ] `justx --version` prints a version, if I chose to install `justx`
+
+---
 
 ## What This Does
 
@@ -42,7 +80,7 @@ This can also save inference costs. Agents burn tokens when they repeatedly sear
 
 ## Two Layers That Work Together
 
-The v0.1.6 setup has two simple layers:
+The v0.1.8 setup has two simple layers:
 
 1. The project `justfile` contains the recipes. It is the project command menu.
 2. `AGENTS.md` or another agent/harness instruction file tells the agent to check that menu first.
@@ -105,18 +143,6 @@ Prefer to watch first? [Watch or download **How a Justfile Fixes AI Coding Agent
 - Something is broken? Use `prompts/repair-justfile-setup.md`.
 
 Before approving install commands, make sure the agent explains what each command does and why that install method fits your system.
-
-## Download Without Git
-
-You do not need Git to use this package.
-
-1. Open the [v0.1.8 release page](https://github.com/xbillwatsonx/justfile-beginner-runbook/releases/tag/v0.1.8).
-2. Download `justfile-beginner-runbook-v0.1.8.zip`.
-3. Unzip it somewhere simple, such as your Desktop or Documents folder.
-4. Open `runbook/quick-start-card.md` first.
-5. Give the prompts to your agent from the unzipped folder.
-
-Do not copy this repo's `starter-kit/justfile` into this runbook repo. Copy it into the project you want to improve.
 
 ## What Success Looks Like
 

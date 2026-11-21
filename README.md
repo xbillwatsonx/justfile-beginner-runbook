@@ -2,6 +2,8 @@
 
 Beginner-friendly runbook for installing `just`, setting up `justx`, and giving AI agents a standard way to find and run project commands.
 
+Want more practical, beginner-friendly runbooks for working with AI agents? Follow Bill on GitHub: [github.com/xbillwatsonx](https://github.com/xbillwatsonx).
+
 ---
 
 ## Three Ways to Start
@@ -190,6 +192,13 @@ Missing starter recipes are warnings unless `just --list` fails, `just` is missi
 ## Version
 
 Status: v0.1.8 published.
+
+## What to Read Next
+
+These companion packages cover the rest of the beginner path:
+
+1. [Beginner's Guide to Configuring Agents](https://github.com/xbillwatsonx/beginners-guide-to-configuring-agents) - Set up a new AI agent so it actually knows you and your work before you give it commands to run.
+2. [OKF Beginner Runbook](https://github.com/xbillwatsonx/okf-beginner-runbook) - Give your agent a structured knowledge base so it has something to work on.
 
 ## Source Notes
 
